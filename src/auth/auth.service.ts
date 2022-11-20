@@ -21,7 +21,6 @@ export class AuthService {
     if (!user) {
       return null
     }
-    console.log('pass', user.password.hashedPassword)
     const isMatch = await bcrypt.compare(
       password,
       user?.password?.hashedPassword,
@@ -52,7 +51,7 @@ export class AuthService {
   }
 
   async login(user: UserEntity) {
-    const payload = { email: user.email, sub: user.uid }
+    const payload = { pk: user.pk, sub: user.uid }
     return {
       accessToken: this.jwtService.sign(payload),
     }

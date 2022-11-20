@@ -1,9 +1,23 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import {IsUrl} from "class-validator";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm'
+import { IsUrl } from 'class-validator'
+import { ShortcutType } from '../shortcut.types'
+import { UserEntity } from '../../user/entities/user.entity'
 
-@Entity()
-export class Shortcut {
-  @PrimaryGeneratedColumn("uuid")
+@Entity({
+  name: 'shortcut',
+})
+@Index(['shortLink', 'creator', 'type'], { unique: true })
+export class ShortcutEntity {
+  @PrimaryGeneratedColumn('uuid')
   uid: string
 
   @Column()
@@ -13,25 +27,36 @@ export class Shortcut {
   shortLink: string
 
   @Column()
-  description: string;
+  description: string
 
-  @Column("varchar", {
+  @Column({
+    type: 'enum',
+    enum: ShortcutType,
+    default: ShortcutType.ORGANISATION,
+  })
+  type?: ShortcutType
+
+  @Column('varchar', {
     length: 2000,
     transformer: {
       from(value: string | null): URL | string {
-        return value !== null ? new URL(value) : value;
+        return value !== null ? new URL(value) : value
       },
       to(value: URL | null): string | null {
-        return value?.toString() || null;
+        return value?.toString() || null
       },
     },
   })
   @IsUrl()
-  fullUrl: URL;
+  fullUrl: string
+
+  @ManyToOne((type) => UserEntity)
+  @JoinColumn()
+  creator?: UserEntity
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Date
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Date
 }

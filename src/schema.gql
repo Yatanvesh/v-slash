@@ -24,7 +24,19 @@ type Organisation {
   updatedAt: DateTime!
 }
 
+type Shortcut {
+  uid: String!
+  pk: String!
+  shortLink: String!
+  description: String!
+  type: String!
+  fullUrl: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
-  user(uid: String!): User!
+  user: User!
   organisation(uid: String!): Organisation!
+  shortcut(uid: String!): Shortcut!
 }

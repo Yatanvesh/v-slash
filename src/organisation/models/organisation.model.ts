@@ -1,19 +1,20 @@
-import {Field, ObjectType} from "@nestjs/graphql";
+import { Field, ObjectType } from '@nestjs/graphql'
+import { OrganisationEntity } from '../entities/organisation.entity'
 
 @ObjectType()
-export class Organisation {
+export class Organisation implements Partial<OrganisationEntity> {
   @Field()
-  uid: string;
+  uid: string
 
   @Field()
-  pk: string;
+  pk: string
 
   @Field()
-  name: string;
+  name: string
 
   @Field()
-  createdAt: Date;
+  createdAt: Date
 
   @Field()
-  updatedAt: Date;
+  updatedAt: Date
 }

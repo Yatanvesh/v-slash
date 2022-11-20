@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
 import { OrganisationModule } from './organisation/organisation.module'
 import { APP_PIPE } from '@nestjs/core'
+import { ShortcutModule } from './shortcut/shortcut.module'
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { APP_PIPE } from '@nestjs/core'
     AuthModule,
     OrganisationModule,
     UserModule,
+    ShortcutModule,
   ],
   controllers: [AppController],
   providers: [
