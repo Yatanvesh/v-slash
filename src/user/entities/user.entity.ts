@@ -4,6 +4,7 @@ import {
   Entity,
   Generated,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -38,7 +39,11 @@ export class UserEntity {
 
   @OneToOne((type) => OrganisationEntity, (org) => org.creator)
   @JoinColumn()
-  organisation: OrganisationEntity
+  createdOrganisation?: OrganisationEntity
+
+  @ManyToOne((type) => OrganisationEntity)
+  @JoinColumn()
+  organisation?: OrganisationEntity
 
   @CreateDateColumn()
   createdAt: Date

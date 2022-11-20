@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { ShortcutEntity } from './entities/shortcut.entity'
 import { UserEntity } from '../user/entities/user.entity'
 import { UserService } from '../user/user.service'
+import { validate } from 'class-validator'
 
 @Injectable()
 export class ShortcutService {
@@ -23,6 +24,10 @@ export class ShortcutService {
       pk: user.pk,
       creator: user,
     })
+    const validationErrors = await validate(shortcut)
+    if (validationErrors.length) {
+      throw new BadRequestException(validationErrors)
+    }
     await this.shortcutRepository.save(shortcut)
     return shortcut
   }

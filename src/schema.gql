@@ -35,13 +35,22 @@ type Shortcut {
   updatedAt: DateTime!
 }
 
+type Tag {
+  uid: String!
+  pk: String!
+  tag: String!
+  createdAt: DateTime!
+}
+
 type Query {
   user: User!
   organisation(uid: String!): Organisation!
   shortcut(uid: String!): Shortcut!
   userShortcuts: [Shortcut!]!
+  tags: [Tag!]!
 }
 
 type Mutation {
   createShortcut(shortLink: String!, fullUrl: String!, description: String, type: String): Shortcut!
+  createTag(tag: String!): Tag!
 }

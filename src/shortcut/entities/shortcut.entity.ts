@@ -4,6 +4,8 @@ import {
   Entity,
   Index,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -11,6 +13,7 @@ import {
 import { IsUrl } from 'class-validator'
 import { ShortcutType } from '../shortcut.types'
 import { UserEntity } from '../../user/entities/user.entity'
+import { TagEntity } from '../../tags/entities/tag.entity'
 
 @Entity({
   name: 'shortcut',
@@ -24,6 +27,7 @@ export class ShortcutEntity {
   pk: string
 
   @Column()
+  @Index()
   shortLink: string
 
   @Column({
@@ -55,6 +59,10 @@ export class ShortcutEntity {
   @ManyToOne((type) => UserEntity)
   @JoinColumn()
   creator?: UserEntity
+
+  @ManyToMany((type) => TagEntity)
+  @JoinTable()
+  tags?: TagEntity[]
 
   @CreateDateColumn()
   createdAt: Date

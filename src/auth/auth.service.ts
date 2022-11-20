@@ -7,6 +7,8 @@ import * as bcrypt from 'bcrypt'
 import { SALT_ROUNDS } from './auth.constants'
 import { OrganisationService } from '../organisation/organisation.service'
 import { OrganisationEntity } from '../organisation/entities/organisation.entity'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class AuthService {
@@ -44,6 +46,9 @@ export class AuthService {
       name: this.organisationService.generateDefaultName(createdUser.name),
       creator: createdUser,
     })
+    createdUser.organisation = organisation
+    createdUser.createdOrganisation = organisation
+    await this.userService.update(createdUser)
     return {
       user: createdUser,
       organisation,

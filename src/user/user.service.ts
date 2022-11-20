@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserPasswordEntity } from './entities/userPassword.entity'
 import { UserCreationAttributes } from './user.types'
+import { User } from './models/user.model'
 
 @Injectable()
 export class UserService {
@@ -39,8 +40,17 @@ export class UserService {
     return createdUser
   }
 
+  update(user: UserEntity) {
+    return this.usersRepository.save(user)
+  }
+
   findByPk(uid: string): Promise<UserEntity> {
-    return this.usersRepository.findOneBy({ uid })
+    return this.usersRepository.findOne({
+      where: {
+        uid,
+      },
+      relations: ['organisation'],
+    })
   }
 
   findByEmail(email: string): Promise<UserEntity> {
