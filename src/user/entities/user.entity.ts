@@ -1,24 +1,48 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Generated,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm'
+import { IsEmail } from 'class-validator'
+import { UserPasswordEntity } from './userPassword.entity'
+import { OrganisationEntity } from '../../organisation/entities/organisation.entity'
 
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn("uuid")
+@Entity({
+  name: 'user',
+})
+export class UserEntity {
+  @PrimaryGeneratedColumn('uuid')
   uid: string
 
   @Column()
+  @Generated('uuid')
   pk: string
 
   @Column()
   name: string
 
   @Column({
-    unique: true
+    unique: true,
   })
-  email: string;
+  @IsEmail()
+  email: string
+
+  @OneToOne((type) => UserPasswordEntity)
+  @JoinColumn()
+  password?: UserPasswordEntity
+
+  @OneToOne((type) => OrganisationEntity, (org) => org.creator)
+  @JoinColumn()
+  organisation: OrganisationEntity
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Date
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Date
 }
