@@ -13,7 +13,7 @@ export class TagResolver {
 
   @Query((returns) => [Tag])
   async tags(@CurrentUser() user: User): Promise<Tag[]> {
-    return this.tagService.getOrganisationTags(user.uid)
+    return this.tagService.getOrganisationTags(user)
   }
 
   @Mutation((returns) => Tag)
@@ -21,6 +21,6 @@ export class TagResolver {
     @Args({ name: 'tag', type: () => String }) tag: string,
     @CurrentUser() user: User,
   ) {
-    return this.tagService.create(tag, user.uid)
+    return this.tagService.create(tag, user)
   }
 }

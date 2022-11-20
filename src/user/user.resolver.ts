@@ -6,13 +6,13 @@ import { GqlAuthGuard } from '../auth/guards/gql-auth.guard'
 import { CurrentUser } from '../auth/current-user.decorator'
 
 @Resolver((of) => User)
+@UseGuards(GqlAuthGuard)
 export class UserResolver {
   constructor(private userService: UserService) {}
 
   @Query((returns) => User)
-  @UseGuards(GqlAuthGuard)
   // async user(@Args('uid', { type: () => String }) uid: string): Promise<User> {
   async user(@CurrentUser() user: User): Promise<User> {
-    return this.userService.findByPk(user.uid)
+    return this.userService.findByPk(user.uid, user.pk)
   }
 }

@@ -18,7 +18,6 @@ export class OrganisationEntity {
   uid: string
 
   @Column()
-  @Generated('uuid')
   pk: string
 
   @Column()

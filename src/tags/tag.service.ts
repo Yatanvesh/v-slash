@@ -7,6 +7,7 @@ import { Tag } from './models/tag.model'
 import { Organisation } from '../organisation/models/organisation.model'
 import { TagCreationAttributes } from './tag.types'
 import { validate } from 'class-validator'
+import { User } from '../user/models/user.model'
 
 @Injectable()
 export class TagService {
@@ -16,19 +17,20 @@ export class TagService {
     private userService: UserService,
   ) {}
 
-  async getOrganisationTags(userUid: string): Promise<Tag[]> {
-    const { organisation } = await this.userService.findByPk(userUid)
+  async getOrganisationTags(user: User): Promise<Tag[]> {
+    const { organisation } = await this.userService.findByPk(user.uid, user.pk)
     return this.tagRepository.find({
       where: {
         organisation: {
           uid: organisation.uid,
         },
+        pk: user.pk,
       },
     })
   }
 
-  async create(tag: string, userUid: string): Promise<Tag> {
-    const user = await this.userService.findByPk(userUid)
+  async create(tag: string, authUser: User): Promise<Tag> {
+    const user = await this.userService.findByPk(authUser.uid, authUser.pk)
     const tagModel = await this.tagRepository.create({
       tag,
       organisation: user.organisation,

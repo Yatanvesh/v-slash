@@ -12,16 +12,16 @@ import { ShortcutType } from './shortcut.types'
 export class ShortcutResolver {
   constructor(private shortcutService: ShortcutService) {}
 
-  @Query((returns) => Shortcut)
-  async shortcut(
-    @Args('uid', { type: () => String }) uid: string,
-  ): Promise<Shortcut> {
-    return this.shortcutService.findOne(uid)
-  }
+  // @Query((returns) => Shortcut)
+  // async shortcut(
+  //   @Args('uid', { type: () => String }) uid: string,
+  // ): Promise<Shortcut> {
+  //   return this.shortcutService.findOne(uid)
+  // }
 
   @Query((returns) => [Shortcut])
   async userShortcuts(@CurrentUser() user: User): Promise<Shortcut[]> {
-    return this.shortcutService.getUserShortcuts(user.uid)
+    return this.shortcutService.getUserShortcuts(user.uid, user.pk)
   }
 
   // @ResolveField()

@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserPasswordEntity } from './entities/userPassword.entity'
 import { UserCreationAttributes } from './user.types'
-import { User } from './models/user.model'
 
 @Injectable()
 export class UserService {
@@ -44,10 +43,11 @@ export class UserService {
     return this.usersRepository.save(user)
   }
 
-  findByPk(uid: string): Promise<UserEntity> {
+  findByPk(uid: string, pk: string): Promise<UserEntity> {
     return this.usersRepository.findOne({
       where: {
         uid,
+        pk,
       },
       relations: ['organisation'],
     })
@@ -60,10 +60,5 @@ export class UserService {
       },
       relations: ['password'],
     })
-  }
-
-  async getHashedPassword(uid: string): Promise<string> {
-    const user = await this.usersRepository.findOneBy({ uid })
-    return user.password.hashedPassword
   }
 }

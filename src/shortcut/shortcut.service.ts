@@ -21,7 +21,10 @@ export class ShortcutService {
     partialUser: Partial<UserEntity>,
     tags: string[] = [],
   ): Promise<ShortcutEntity> {
-    const user = await this.userService.findByPk(partialUser.uid)
+    const user = await this.userService.findByPk(
+      partialUser.uid,
+      partialUser.pk,
+    )
     const shortcut = this.shortcutRepository.create({
       ...shortcutCreationAttributes,
       pk: user.pk,
@@ -39,24 +42,19 @@ export class ShortcutService {
     await this.shortcutRepository.save(shortcut)
     return shortcut
   }
+  // async findOne(uid: string): Promise<ShortcutEntity> {
+  //   return this.shortcutRepository.findOneBy({ uid })
+  // }
 
-  async findOne(uid: string): Promise<ShortcutEntity> {
-    return this.shortcutRepository.findOneBy({ uid })
-  }
-
-  async getUserShortcuts(uid: string): Promise<ShortcutEntity[]> {
+  async getUserShortcuts(uid: string, pk: string): Promise<ShortcutEntity[]> {
     return this.shortcutRepository.find({
       where: {
         creator: {
           uid,
         },
+        pk,
       },
       relations: ['tags'],
     })
   }
-
-  // findTags(shortcut: Shortcut) {
-  //   const short
-  //   return Promise.resolve(undefined);
-  // }
 }

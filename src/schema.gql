@@ -45,8 +45,7 @@ type Shortcut {
 
 type Query {
   user: User!
-  organisation(uid: String!): Organisation!
-  shortcut(uid: String!): Shortcut!
+  organisation: Organisation!
   userShortcuts: [Shortcut!]!
   tags: [Tag!]!
 }

@@ -45,6 +45,7 @@ export class AuthService {
     const organisation = await this.organisationService.create({
       name: this.organisationService.generateDefaultName(createdUser.name),
       creator: createdUser,
+      pk: createdUser.pk,
     })
     createdUser.organisation = organisation
     createdUser.createdOrganisation = organisation

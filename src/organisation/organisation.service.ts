@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { OrganisationEntity } from './entities/organisation.entity'
 import { OrganisationCreationAttributes } from './organisation.types'
+import { UserService } from '../user/user.service'
+import { User } from '../user/models/user.model'
 
 @Injectable()
 export class OrganisationService {
   constructor(
     @InjectRepository(OrganisationEntity)
     private organisationRepository: Repository<OrganisationEntity>,
+    private userService: UserService,
   ) {}
 
   async create(creationAttributes: OrganisationCreationAttributes) {
@@ -22,11 +25,8 @@ export class OrganisationService {
     return `ORG_${userName}`
   }
 
-  // findAll(): Promise<User[]> {
-  //   return this.usersRepository.find();
-  // }
-  //
-  findOne(uid: string): Promise<OrganisationEntity> {
-    return this.organisationRepository.findOneBy({ uid })
+  async findOne(authUser: User): Promise<OrganisationEntity> {
+    const user = await this.userService.findByPk(authUser.uid, authUser.pk)
+    return user.organisation
   }
 }
