@@ -13,6 +13,6 @@ export class UserResolver {
   @UseGuards(GqlAuthGuard)
   // async user(@Args('uid', { type: () => String }) uid: string): Promise<User> {
   async user(@CurrentUser() user: User): Promise<User> {
-    return this.userService.findOne(user.uid)
+    return this.userService.findByPk(user.uid)
   }
 }

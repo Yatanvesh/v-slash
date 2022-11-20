@@ -39,4 +39,9 @@ type Query {
   user: User!
   organisation(uid: String!): Organisation!
   shortcut(uid: String!): Shortcut!
+  userShortcuts: [Shortcut!]!
+}
+
+type Mutation {
+  createShortcut(shortLink: String!, fullUrl: String!, description: String, type: String): Shortcut!
 }

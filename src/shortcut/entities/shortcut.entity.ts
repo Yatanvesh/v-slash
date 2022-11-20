@@ -26,8 +26,10 @@ export class ShortcutEntity {
   @Column()
   shortLink: string
 
-  @Column()
-  description: string
+  @Column({
+    nullable: true,
+  })
+  description?: string
 
   @Column({
     type: 'enum',

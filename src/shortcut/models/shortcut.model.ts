@@ -14,7 +14,7 @@ export class Shortcut {
   shortLink: string
 
   @Field()
-  description: string
+  description?: string
 
   @Field()
   type?: ShortcutType

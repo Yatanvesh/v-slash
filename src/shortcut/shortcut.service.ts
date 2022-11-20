@@ -4,7 +4,6 @@ import { Repository } from 'typeorm'
 import { ShortcutEntity } from './entities/shortcut.entity'
 import { UserEntity } from '../user/entities/user.entity'
 import { UserService } from '../user/user.service'
-import { Shortcut } from './models/shortcut.model'
 
 @Injectable()
 export class ShortcutService {
@@ -18,7 +17,7 @@ export class ShortcutService {
     shortcutCreationAttributes: Partial<ShortcutEntity>,
     partialUser: Partial<UserEntity>,
   ): Promise<ShortcutEntity> {
-    const user = await this.userService.findOne(partialUser.uid)
+    const user = await this.userService.findByPk(partialUser.uid)
     const shortcut = this.shortcutRepository.create({
       ...shortcutCreationAttributes,
       pk: user.pk,
@@ -30,5 +29,16 @@ export class ShortcutService {
 
   async findOne(uid: string): Promise<ShortcutEntity> {
     return this.shortcutRepository.findOneBy({ uid })
+  }
+
+  async getUserShortcuts(uid: string): Promise<ShortcutEntity[]> {
+    return this.shortcutRepository.find({
+      where: {
+        creator: {
+          uid,
+        },
+      },
+      // relations: ['creator'],
+    })
   }
 }

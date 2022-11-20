@@ -39,7 +39,7 @@ export class UserService {
     return createdUser
   }
 
-  findOne(uid: string): Promise<UserEntity> {
+  findByPk(uid: string): Promise<UserEntity> {
     return this.usersRepository.findOneBy({ uid })
   }
 
