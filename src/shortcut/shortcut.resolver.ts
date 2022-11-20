@@ -1,4 +1,4 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Shortcut } from './models/shortcut.model'
 import { ShortcutService } from './shortcut.service'
 import { UseGuards } from '@nestjs/common'
@@ -20,10 +20,14 @@ export class ShortcutResolver {
   }
 
   @Query((returns) => [Shortcut])
-  // @UseGuards(GqlAuthGuard)
   async userShortcuts(@CurrentUser() user: User): Promise<Shortcut[]> {
     return this.shortcutService.getUserShortcuts(user.uid)
   }
+
+  // @ResolveField()
+  // async tags(@Parent() shortcut: Shortcut) {
+  //   return this.shortcutService.findTags(shortcut);
+  // }
 
   @Mutation((returns) => Shortcut)
   // @UseGuards(GqlAuthGuard)
@@ -34,6 +38,8 @@ export class ShortcutResolver {
     description: string,
     @Args({ name: 'type', type: () => String, nullable: true })
     type: ShortcutType,
+    @Args({ name: 'tags', type: () => [String], nullable: true })
+    tags: string[],
     @CurrentUser() user: User,
   ) {
     return this.shortcutService.create(
@@ -44,6 +50,7 @@ export class ShortcutResolver {
         type,
       },
       user,
+      tags,
     )
   }
 }

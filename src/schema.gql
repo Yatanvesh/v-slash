@@ -24,6 +24,13 @@ type Organisation {
   updatedAt: DateTime!
 }
 
+type Tag {
+  uid: String!
+  pk: String!
+  tag: String!
+  createdAt: DateTime!
+}
+
 type Shortcut {
   uid: String!
   pk: String!
@@ -31,15 +38,9 @@ type Shortcut {
   description: String!
   type: String!
   fullUrl: String!
+  tags: [Tag!]!
   createdAt: DateTime!
   updatedAt: DateTime!
-}
-
-type Tag {
-  uid: String!
-  pk: String!
-  tag: String!
-  createdAt: DateTime!
 }
 
 type Query {
@@ -51,6 +52,6 @@ type Query {
 }
 
 type Mutation {
-  createShortcut(shortLink: String!, fullUrl: String!, description: String, type: String): Shortcut!
+  createShortcut(shortLink: String!, fullUrl: String!, description: String, type: String, tags: [String!]): Shortcut!
   createTag(tag: String!): Tag!
 }

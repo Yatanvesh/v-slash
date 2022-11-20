@@ -5,6 +5,7 @@ import { ShortcutEntity } from './entities/shortcut.entity'
 import { UserEntity } from '../user/entities/user.entity'
 import { UserService } from '../user/user.service'
 import { validate } from 'class-validator'
+import { TagService } from '../tags/tag.service'
 
 @Injectable()
 export class ShortcutService {
@@ -12,11 +13,13 @@ export class ShortcutService {
     @InjectRepository(ShortcutEntity)
     private shortcutRepository: Repository<ShortcutEntity>,
     private userService: UserService,
+    private tagService: TagService,
   ) {}
 
   async create(
     shortcutCreationAttributes: Partial<ShortcutEntity>,
     partialUser: Partial<UserEntity>,
+    tags: string[] = [],
   ): Promise<ShortcutEntity> {
     const user = await this.userService.findByPk(partialUser.uid)
     const shortcut = this.shortcutRepository.create({
@@ -28,6 +31,11 @@ export class ShortcutService {
     if (validationErrors.length) {
       throw new BadRequestException(validationErrors)
     }
+
+    shortcut.tags = await this.tagService.getTagEntities(
+      tags,
+      user.organisation,
+    )
     await this.shortcutRepository.save(shortcut)
     return shortcut
   }
@@ -43,7 +51,12 @@ export class ShortcutService {
           uid,
         },
       },
-      // relations: ['creator'],
+      relations: ['tags'],
     })
   }
+
+  // findTags(shortcut: Shortcut) {
+  //   const short
+  //   return Promise.resolve(undefined);
+  // }
 }

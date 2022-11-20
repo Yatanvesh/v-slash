@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { ShortcutEntity } from '../entities/shortcut.entity'
 import { ShortcutType } from '../shortcut.types'
+import { Tag } from '../../tags/models/tag.model'
 
 @ObjectType()
 export class Shortcut {
@@ -21,6 +21,9 @@ export class Shortcut {
 
   @Field()
   fullUrl: string
+
+  @Field((type) => [Tag])
+  tags?: Tag[]
 
   @Field()
   createdAt: Date
