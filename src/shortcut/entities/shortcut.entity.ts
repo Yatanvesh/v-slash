@@ -69,6 +69,7 @@ export class ShortcutEntity {
   tags?: TagEntity[]
 
   @CreateDateColumn()
+  @Index()
   createdAt: Date
 
   @UpdateDateColumn()
