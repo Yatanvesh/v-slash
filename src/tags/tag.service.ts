@@ -40,6 +40,9 @@ export class TagService {
     return tagModel
   }
 
+  /*
+     Receives array of tag strings and hydrates their entities from db
+   */
   async getTagEntities(
     tags: string[],
     organisation: Organisation,
@@ -47,9 +50,9 @@ export class TagService {
     if (!tags?.length) {
       return []
     }
-    // const tagStrings = tags.map((tagModel) => tagModel.tag)
     const tagObject = new TagCreationAttributes(tags)
     const tagValidationErrors = await validate(tagObject)
+    // This error bubbles up all the way to controller, and is returned as gql error to frontend
     if (tagValidationErrors.length) {
       throw new BadRequestException(tagValidationErrors)
     }
@@ -69,6 +72,9 @@ export class TagService {
     return tagEntities
   }
 
+  /*
+    Finds tag entities in organisation given a search string
+   */
   findTagsLike(
     searchTerm: string,
     orgUid: string,
@@ -80,6 +86,8 @@ export class TagService {
           uid: orgUid,
           pk,
         },
+        // using % wildcard as a suffix improves performance
+        // it's fair to say that a prefix search is not needed here
         tag: Like(`${searchTerm}%`),
       },
     })

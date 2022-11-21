@@ -13,13 +13,10 @@ import { SortDirection } from '../../v-slash-frontend/src/app/core/core.types'
 export class ShortcutResolver {
   constructor(private shortcutService: ShortcutService) {}
 
-  // @Query((returns) => Shortcut)
-  // async shortcut(
-  //   @Args('uid', { type: () => String }) uid: string,
-  // ): Promise<Shortcut> {
-  //   return this.shortcutService.findOne(uid)
-  // }
-
+  /*
+    Get list of shortcuts for authenticated user
+    Accepts pagination and sorting params
+   */
   @Query((returns) => [Shortcut])
   async userShortcuts(
     @Args({ name: 'offset', defaultValue: 0, type: () => Number })
@@ -44,6 +41,10 @@ export class ShortcutResolver {
     })
   }
 
+  /*
+    Search shortcut for a given user
+    Uses shortLink, description and tags as lookup columns
+   */
   @Query((returns) => [Shortcut])
   async searchShortcut(
     @Args({ name: 'searchTerm', type: () => String })
@@ -57,16 +58,20 @@ export class ShortcutResolver {
     )
   }
 
+  /*
+    Count the number of shortcuts for a given user
+    Does not include private shortcuts of other users in same org
+   */
   @Query((returns) => Number)
   async userShortcutsCount(@CurrentUser() user: User): Promise<Number> {
     return this.shortcutService.getUserShortcutsCount(user.uid, user.pk)
   }
 
-  // @ResolveField()
-  // async tags(@Parent() shortcut: Shortcut) {
-  //   return this.shortcutService.findTags(shortcut);
-  // }
-
+  /*
+    Creates a new shortcut
+    fullUrl must be a URL pertaining to WHATWG spe
+    type, description and tags are optional
+   */
   @Mutation((returns) => Shortcut)
   async createShortcut(
     @Args({ name: 'shortLink', type: () => String }) shortLink: string,
@@ -91,6 +96,9 @@ export class ShortcutResolver {
     )
   }
 
+  /*
+    Deletes a shortcut by primary key
+   */
   @Mutation((returns) => Boolean)
   async deleteShortcut(
     @Args({ name: 'uid', type: () => String }) uid: string,

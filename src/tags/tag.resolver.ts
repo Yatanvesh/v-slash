@@ -11,11 +11,17 @@ import { User } from '../user/models/user.model'
 export class TagResolver {
   constructor(private tagService: TagService) {}
 
+  /*
+    Returns tags of org of currently authenticated user
+   */
   @Query((returns) => [Tag])
   async tags(@CurrentUser() user: User): Promise<Tag[]> {
     return this.tagService.getOrganisationTags(user)
   }
 
+  /*
+    Creates a new tag linked to org of currently authenticated user
+   */
   @Mutation((returns) => Tag)
   async createTag(
     @Args({ name: 'tag', type: () => String }) tag: string,

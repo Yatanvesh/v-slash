@@ -1,4 +1,4 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql'
+import { Query, Resolver } from '@nestjs/graphql'
 import { Organisation } from './models/organisation.model'
 import { OrganisationService } from './organisation.service'
 import { UseGuards } from '@nestjs/common'
@@ -11,6 +11,9 @@ import { User } from '../user/models/user.model'
 export class OrganisationResolver {
   constructor(private organisationService: OrganisationService) {}
 
+  /*
+    Gets organisation of currently authenticated user
+   */
   @Query((returns) => Organisation)
   async organisation(@CurrentUser() user: User): Promise<Organisation> {
     return this.organisationService.findOne(user)

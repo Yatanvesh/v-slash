@@ -7,7 +7,6 @@ import { UserService } from '../user/user.service'
 import { validate } from 'class-validator'
 import { TagService } from '../tags/tag.service'
 import { ShortcutType } from './shortcut.types'
-import { User } from '../user/models/user.model'
 
 @Injectable()
 export class ShortcutService {
@@ -18,6 +17,10 @@ export class ShortcutService {
     private tagService: TagService,
   ) {}
 
+  /*
+    Creates a new shortcut
+    Throws error schema is invalid
+   */
   async create(
     shortcutCreationAttributes: Partial<ShortcutEntity>,
     partialUser: Partial<UserEntity>,
@@ -34,9 +37,11 @@ export class ShortcutService {
     })
     const validationErrors = await validate(shortcut)
     if (validationErrors.length) {
+      // Throwing first error for now for ease of parsing
       throw new BadRequestException(validationErrors[0].toString())
     }
 
+    // get hydrated tag entities from tag strings
     shortcut.tags = await this.tagService.getTagEntities(
       tags,
       user.organisation,
@@ -46,10 +51,10 @@ export class ShortcutService {
     return shortcut
   }
 
-  // async findOne(uid: string): Promise<ShortcutEntity> {
-  //   return this.shortcutRepository.findOneBy({ uid })
-  // }
-
+  /*
+    Get shortcuts for a given user
+    Fetches all public shortcuts of organisation, private shortcuts scoped to the user
+   */
   async getUserShortcuts(
     userUid: string,
     pk: string,
@@ -83,6 +88,9 @@ export class ShortcutService {
     })
   }
 
+  /*
+    Delete a shortcut
+   */
   async delete(uid: string, user: Partial<UserEntity>) {
     await this.shortcutRepository.delete({
       uid,
@@ -91,6 +99,9 @@ export class ShortcutService {
     return true
   }
 
+  /*
+    Count public organisation shortcuts and private user shortcuts
+   */
   async getUserShortcutsCount(userUid: string, pk: string): Promise<number> {
     const user = await this.userService.findByPk(userUid, pk)
     return this.shortcutRepository.count({
@@ -114,8 +125,13 @@ export class ShortcutService {
     })
   }
 
+  /*
+    Search shortcuts using shortLink, description and tags
+   */
   async getMatchedShortcuts(searchTerm: string, userUid: string, pk: string) {
     const user = await this.userService.findByPk(userUid, pk)
+    // find organisation and private shortcuts first, along with tag entities
+    // An array of where condition indicates OR operator between them
     const [shortcuts, tags] = await Promise.all([
       this.shortcutRepository.find({
         where: [
@@ -158,6 +174,9 @@ export class ShortcutService {
       }),
       this.tagService.findTagsLike(searchTerm, user.organisation.uid, pk),
     ])
+    // Second step, find shortcuts linked to tag entities found in the prev step
+    // A join condition in first step could have directly yielded rows with certain tags, but this method is chosen as it generally performs better
+    // and organisation tags can also be cached in a in memory datastore like redis
     const taggedShortcuts = await this.shortcutRepository.find({
       where: [
         {

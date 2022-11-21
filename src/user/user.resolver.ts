@@ -10,8 +10,10 @@ import { CurrentUser } from '../auth/current-user.decorator'
 export class UserResolver {
   constructor(private userService: UserService) {}
 
+  /*
+    Returns currently authenticated user
+   */
   @Query((returns) => User)
-  // async user(@Args('uid', { type: () => String }) uid: string): Promise<User> {
   async user(@CurrentUser() user: User): Promise<User> {
     return this.userService.findByPk(user.uid, user.pk)
   }

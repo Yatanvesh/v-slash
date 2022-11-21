@@ -20,6 +20,10 @@ export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   uid: string
 
+  /*
+    The partition key is first generated when a user is created
+    It is used in all related queries
+   */
   @Column()
   @Generated('uuid')
   pk: string

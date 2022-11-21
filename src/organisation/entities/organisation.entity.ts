@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  Generated,
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -23,6 +22,9 @@ export class OrganisationEntity {
   @Column()
   name: string
 
+  /*
+    Mapping creator to organisation is a good proxy for role based checks for now
+   */
   @OneToOne((type) => UserEntity, (user) => user.organisation)
   @JoinColumn()
   creator: UserEntity

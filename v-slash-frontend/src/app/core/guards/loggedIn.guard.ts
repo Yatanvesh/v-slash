@@ -4,7 +4,6 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router'
 import { AuthService } from '../services/auth.service'
 

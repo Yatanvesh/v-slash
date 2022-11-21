@@ -18,7 +18,10 @@ export class AuthService {
     private organisationService: OrganisationService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
+  /*
+    Validates user password and returns the user entity
+   */
+  async validateUser(email: string, password: string): Promise<UserEntity> {
     const user = await this.userService.findByEmail(email)
     if (!user) {
       return null
@@ -33,6 +36,9 @@ export class AuthService {
     return null
   }
 
+  /*
+      Creates a user and a default organisation(workspace) for that user
+   */
   async createUser(
     user: CreateUserDto,
   ): Promise<{ user: UserEntity; organisation: OrganisationEntity }> {

@@ -14,11 +14,9 @@ export class UserService {
     private userPasswordRepository: Repository<UserPasswordEntity>,
   ) {}
 
-  // findAll(): Promise<User[]> {
-  //   return this.usersRepository.find();
-  // }
-  //
-
+  /*
+    Creates a user and an entry password table
+   */
   async create(
     creationAttributes: UserCreationAttributes,
   ): Promise<UserEntity> {
