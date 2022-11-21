@@ -8,6 +8,7 @@ import { ShortcutModule } from './shortcut/shortcut.module'
 import { TagModule } from './tags/tag.module'
 import { DB_CONFIG } from './db.config'
 import { GRAPHQL_CONFIG } from './graphql.config'
+import { ShortcutController } from './shortcut/shortcut.controller'
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { GRAPHQL_CONFIG } from './graphql.config'
     TagModule,
   ],
   // only authentication routes are REST based, for everything else we have graphql
-  controllers: [AppController],
+  controllers: [AppController, ShortcutController],
   // globally validate DTOs passed in controllers, throws error if class-validator schema is invalid
   providers: [
     {
