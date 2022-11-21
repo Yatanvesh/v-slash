@@ -43,15 +43,12 @@ describe('AuthController', () => {
           name: 'yatan',
           email: 'oggybuddy1@gmail.com',
           uid: 'a96cd76e-6b4b-4d29-a8c9-56630fb29f7a',
-          pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
           createdAt: '2022-11-20T17:38:24.563Z',
           updatedAt: '2022-11-20T17:38:24.000Z',
           organisation: {
-            pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
             name: 'ORG_yatan',
             creator: {
               uid: 'a96cd76e-6b4b-4d29-a8c9-56630fb29f7a',
-              pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
               name: 'yatan',
               email: 'oggybuddy1@gmail.com',
               createdAt: '2022-11-20T17:38:24.563Z',
@@ -62,11 +59,9 @@ describe('AuthController', () => {
             updatedAt: '2022-11-20T17:38:24.594Z',
           },
           createdOrganisation: {
-            pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
             name: 'ORG_yatan',
             creator: {
               uid: 'a96cd76e-6b4b-4d29-a8c9-56630fb29f7a',
-              pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
               name: 'yatan',
               email: 'oggybuddy1@gmail.com',
               createdAt: '2022-11-20T17:38:24.563Z',
@@ -78,11 +73,9 @@ describe('AuthController', () => {
           },
         },
         organisation: {
-          pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
           name: 'ORG_yatan',
           creator: {
             uid: 'a96cd76e-6b4b-4d29-a8c9-56630fb29f7a',
-            pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
             name: 'yatan',
             email: 'oggybuddy1@gmail.com',
             createdAt: '2022-11-20T17:38:24.563Z',
@@ -119,7 +112,6 @@ describe('AuthController', () => {
       jest.spyOn(authService, 'login').mockImplementation(async () => result)
 
       const loginDto: Partial<UserEntity> = {
-        pk: v4(),
         uid: v4(),
       }
       expect(await authController.login(loginDto)).toBe(result)

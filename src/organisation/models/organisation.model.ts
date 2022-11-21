@@ -7,9 +7,6 @@ export class Organisation implements Partial<OrganisationEntity> {
   uid: string
 
   @Field()
-  pk: string
-
-  @Field()
   name: string
 
   @Field()

@@ -51,7 +51,6 @@ export class AuthService {
     const organisation = await this.organisationService.create({
       name: this.organisationService.generateDefaultName(createdUser.name),
       creator: createdUser,
-      pk: createdUser.pk,
     })
     createdUser.organisation = organisation
     createdUser.createdOrganisation = organisation
@@ -63,7 +62,7 @@ export class AuthService {
   }
 
   async login(user: Partial<UserEntity>) {
-    const payload = { pk: user.pk, sub: user.uid }
+    const payload = { sub: user.uid }
     return {
       accessToken: this.jwtService.sign(payload),
     }

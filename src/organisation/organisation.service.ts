@@ -26,7 +26,7 @@ export class OrganisationService {
   }
 
   async findOne(authUser: User): Promise<OrganisationEntity> {
-    const user = await this.userService.findByPk(authUser.uid, authUser.pk)
+    const user = await this.userService.findByPk(authUser.uid)
     return user.organisation
   }
 }

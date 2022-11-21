@@ -34,7 +34,6 @@ describe('ShortcutTests', () => {
         type: ShortcutType.PRIVATE,
         description: 'test description',
         uid: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
-        pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
         tags: [],
         createdAt: new Date('2022-11-20T17:38:24.563Z'),
         updatedAt: new Date('2022-11-20T17:38:24.000Z'),
@@ -52,7 +51,6 @@ describe('ShortcutTests', () => {
           result.tags,
           {
             uid: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
-            pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
           },
         ),
       ).toBe(result)
@@ -69,7 +67,6 @@ describe('ShortcutTests', () => {
       expect(
         await shortcutResolver.userShortcutsCount({
           uid: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
-          pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
         }),
       ).toBe(result)
     })

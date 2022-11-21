@@ -6,9 +6,6 @@ export class Tag {
   uid: string
 
   @Field()
-  pk: string
-
-  @Field()
   tag: string
 
   @Field()

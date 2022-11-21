@@ -4,7 +4,6 @@
 
 type User {
   uid: String!
-  pk: String!
   name: String!
   email: String!
   createdAt: DateTime!
@@ -18,7 +17,6 @@ scalar DateTime
 
 type Organisation {
   uid: String!
-  pk: String!
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -26,14 +24,12 @@ type Organisation {
 
 type Tag {
   uid: String!
-  pk: String!
   tag: String!
   createdAt: DateTime!
 }
 
 type Shortcut {
   uid: String!
-  pk: String!
   shortLink: String!
   description: String!
   type: String!

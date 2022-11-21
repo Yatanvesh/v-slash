@@ -15,6 +15,6 @@ export class UserResolver {
    */
   @Query((returns) => User)
   async user(@CurrentUser() user: User): Promise<User> {
-    return this.userService.findByPk(user.uid, user.pk)
+    return this.userService.findByPk(user.uid)
   }
 }

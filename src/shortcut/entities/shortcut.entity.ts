@@ -26,9 +26,6 @@ export class ShortcutEntity {
   uid: string
 
   @Column()
-  pk: string
-
-  @Column()
   @Index()
   shortLink: string
 

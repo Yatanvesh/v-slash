@@ -8,9 +8,6 @@ export class Shortcut {
   uid: string
 
   @Field()
-  pk: string
-
-  @Field()
   shortLink: string
 
   @Field()

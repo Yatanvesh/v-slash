@@ -17,9 +17,6 @@ export class OrganisationEntity {
   uid: string
 
   @Column()
-  pk: string
-
-  @Column()
   name: string
 
   /*

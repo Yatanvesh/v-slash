@@ -14,9 +14,6 @@ export class UserPasswordEntity {
   uid: string
 
   @Column()
-  pk: string
-
-  @Column()
   hashedPassword: string
 
   @CreateDateColumn()

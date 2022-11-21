@@ -4,7 +4,6 @@ export interface LoginResponse {
 
 export interface Tag {
   uid?: string
-  pk?: string
   tag: string
   createdAt?: Date
 }
@@ -16,7 +15,6 @@ export enum ShortcutType {
 
 export interface Shortcut {
   uid?: string
-  pk?: string
   shortLink: string
   description?: string
   type?: ShortcutType

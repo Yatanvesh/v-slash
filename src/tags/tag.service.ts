@@ -18,23 +18,21 @@ export class TagService {
   ) {}
 
   async getOrganisationTags(user: User): Promise<Tag[]> {
-    const { organisation } = await this.userService.findByPk(user.uid, user.pk)
+    const { organisation } = await this.userService.findByPk(user.uid)
     return this.tagRepository.find({
       where: {
         organisation: {
           uid: organisation.uid,
         },
-        pk: user.pk,
       },
     })
   }
 
   async create(tag: string, authUser: User): Promise<Tag> {
-    const user = await this.userService.findByPk(authUser.uid, authUser.pk)
+    const user = await this.userService.findByPk(authUser.uid)
     const tagModel = await this.tagRepository.create({
       tag,
       organisation: user.organisation,
-      pk: user.pk,
     })
     await this.tagRepository.save(tagModel)
     return tagModel
@@ -60,7 +58,6 @@ export class TagService {
       where: {
         organisation: {
           uid: organisation.uid,
-          pk: organisation.pk,
         },
         tag: In(tags),
       },
@@ -75,16 +72,11 @@ export class TagService {
   /*
     Finds tag entities in organisation given a search string
    */
-  findTagsLike(
-    searchTerm: string,
-    orgUid: string,
-    pk: string,
-  ): Promise<TagEntity[]> {
+  findTagsLike(searchTerm: string, orgUid: string): Promise<TagEntity[]> {
     return this.tagRepository.find({
       where: {
         organisation: {
           uid: orgUid,
-          pk,
         },
         // using % wildcard as a suffix improves performance
         // it's fair to say that a prefix search is not needed here

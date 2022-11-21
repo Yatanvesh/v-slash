@@ -25,11 +25,9 @@ describe('OrganisationTests', () => {
   describe('createOrganisation', () => {
     it('should create an organisation', async () => {
       const result: OrganisationEntity = {
-        pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
         name: 'ORG_yatan',
         creator: {
           uid: 'a96cd76e-6b4b-4d29-a8c9-56630fb29f7a',
-          pk: 'ed9c0a80-ad1e-4b9f-ac1e-6f097405537a',
           name: 'yatan',
           email: 'oggybuddy1@gmail.com',
           createdAt: new Date('2022-11-20T17:38:24.563Z'),
@@ -45,7 +43,6 @@ describe('OrganisationTests', () => {
 
       const orgCreationDto: OrganisationCreationAttributes = {
         name: 'yatan',
-        pk: v4(),
         creator: result.creator,
       }
       expect(await organisationService.create(orgCreationDto)).toBe(result)

@@ -33,7 +33,7 @@ export class ShortcutResolver {
     sortDir: string,
     @CurrentUser() user: User,
   ): Promise<Shortcut[]> {
-    return this.shortcutService.getUserShortcuts(user.uid, user.pk, {
+    return this.shortcutService.getUserShortcuts(user.uid, {
       offset,
       limit,
       sortKey,
@@ -51,11 +51,7 @@ export class ShortcutResolver {
     searchTerm: string,
     @CurrentUser() user: User,
   ): Promise<Shortcut[]> {
-    return this.shortcutService.getMatchedShortcuts(
-      searchTerm,
-      user.uid,
-      user.pk,
-    )
+    return this.shortcutService.getMatchedShortcuts(searchTerm, user.uid)
   }
 
   /*
@@ -66,7 +62,7 @@ export class ShortcutResolver {
   async userShortcutsCount(
     @CurrentUser() user: Partial<User>,
   ): Promise<Number> {
-    return this.shortcutService.getUserShortcutsCount(user.uid, user.pk)
+    return this.shortcutService.getUserShortcutsCount(user.uid)
   }
 
   /*

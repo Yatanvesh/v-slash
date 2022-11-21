@@ -26,13 +26,9 @@ export class ShortcutService {
     partialUser: Partial<UserEntity>,
     tags: string[] = [],
   ): Promise<ShortcutEntity> {
-    const user = await this.userService.findByPk(
-      partialUser.uid,
-      partialUser.pk,
-    )
+    const user = await this.userService.findByPk(partialUser.uid)
     const shortcut = this.shortcutRepository.create({
       ...shortcutCreationAttributes,
-      pk: user.pk,
       creator: user,
     })
     const validationErrors = await validate(shortcut)
@@ -57,26 +53,22 @@ export class ShortcutService {
    */
   async getUserShortcuts(
     userUid: string,
-    pk: string,
     { offset, limit, sortKey, sortDir },
   ): Promise<ShortcutEntity[]> {
-    const user = await this.userService.findByPk(userUid, pk)
+    const user = await this.userService.findByPk(userUid)
     return this.shortcutRepository.find({
       where: [
         {
           organisation: {
             uid: user.organisation.uid,
-            pk: pk,
           },
           type: ShortcutType.ORGANISATION,
-          pk,
         },
         {
           creator: {
             uid: userUid,
           },
           type: ShortcutType.PRIVATE,
-          pk,
         },
       ],
       order: {
@@ -94,7 +86,6 @@ export class ShortcutService {
   async delete(uid: string, user: Partial<UserEntity>) {
     await this.shortcutRepository.delete({
       uid,
-      pk: user.pk,
     })
     return true
   }
@@ -102,24 +93,21 @@ export class ShortcutService {
   /*
     Count public organisation shortcuts and private user shortcuts
    */
-  async getUserShortcutsCount(userUid: string, pk: string): Promise<number> {
-    const user = await this.userService.findByPk(userUid, pk)
+  async getUserShortcutsCount(userUid: string): Promise<number> {
+    const user = await this.userService.findByPk(userUid)
     return this.shortcutRepository.count({
       where: [
         {
           organisation: {
             uid: user.organisation.uid,
-            pk: pk,
           },
           type: ShortcutType.ORGANISATION,
-          pk,
         },
         {
           creator: {
             uid: userUid,
           },
           type: ShortcutType.PRIVATE,
-          pk,
         },
       ],
     })
@@ -128,8 +116,8 @@ export class ShortcutService {
   /*
     Search shortcuts using shortLink, description and tags
    */
-  async getMatchedShortcuts(searchTerm: string, userUid: string, pk: string) {
-    const user = await this.userService.findByPk(userUid, pk)
+  async getMatchedShortcuts(searchTerm: string, userUid: string) {
+    const user = await this.userService.findByPk(userUid)
     // find organisation and private shortcuts first, along with tag entities
     // An array of where condition indicates OR operator between them
     const [shortcuts, tags] = await Promise.all([
@@ -139,19 +127,15 @@ export class ShortcutService {
             shortLink: Like(`${searchTerm}%`),
             organisation: {
               uid: user.organisation.uid,
-              pk: pk,
             },
             type: ShortcutType.ORGANISATION,
-            pk,
           },
           {
             description: Like(`%${searchTerm}%`),
             organisation: {
               uid: user.organisation.uid,
-              pk: pk,
             },
             type: ShortcutType.ORGANISATION,
-            pk,
           },
           {
             shortLink: Like(`${searchTerm}%`),
@@ -159,11 +143,9 @@ export class ShortcutService {
               uid: user.uid,
             },
             type: ShortcutType.PRIVATE,
-            pk: user.pk,
           },
           {
             description: Like(`%${searchTerm}%`),
-            pk,
             creator: {
               uid: user.uid,
             },
@@ -172,7 +154,7 @@ export class ShortcutService {
         ],
         relations: ['tags'],
       }),
-      this.tagService.findTagsLike(searchTerm, user.organisation.uid, pk),
+      this.tagService.findTagsLike(searchTerm, user.organisation.uid),
     ])
     // Second step, find shortcuts linked to tag entities found in the prev step
     // A join condition in first step could have directly yielded rows with certain tags, but this method is chosen as it generally performs better
@@ -185,10 +167,8 @@ export class ShortcutService {
           },
           organisation: {
             uid: user.organisation.uid,
-            pk: pk,
           },
           type: ShortcutType.ORGANISATION,
-          pk,
         },
         {
           tags: {
@@ -198,7 +178,6 @@ export class ShortcutService {
             uid: user.uid,
           },
           type: ShortcutType.PRIVATE,
-          pk: user.pk,
         },
       ],
       relations: ['tags'],

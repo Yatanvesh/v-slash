@@ -12,15 +12,10 @@ import { OrganisationEntity } from '../../organisation/entities/organisation.ent
 @Entity({
   name: 'tag',
 })
-// tags are unique to organisation, pk could be used instead of organisation joinColumn
-// but that would constraint the usage to partition key
 @Index(['tag', 'organisation'], { unique: true })
 export class TagEntity {
   @PrimaryGeneratedColumn('uuid')
   uid: string
-
-  @Column()
-  pk: string
 
   @Column()
   @Index()

@@ -28,7 +28,6 @@ export class UserService {
 
     const passwordEntity = await this.userPasswordRepository.create({
       hashedPassword: creationAttributes.hashedPassword,
-      pk: user.pk,
     })
     await this.userPasswordRepository.save(passwordEntity)
 
@@ -41,11 +40,10 @@ export class UserService {
     return this.usersRepository.save(user)
   }
 
-  findByPk(uid: string, pk: string): Promise<UserEntity> {
+  findByPk(uid: string): Promise<UserEntity> {
     return this.usersRepository.findOne({
       where: {
         uid,
-        pk,
       },
       relations: ['organisation'],
     })
