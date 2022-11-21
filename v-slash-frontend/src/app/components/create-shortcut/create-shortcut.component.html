@@ -4,7 +4,7 @@
   <mat-card>
     <mat-card-content>
       <form class="create-form">
-        <mat-form-field  class="input link" appearance="outline">
+        <mat-form-field class="input link" appearance="outline">
           <mat-label>Short link</mat-label>
           <input required matInput type="text" [(ngModel)]="shortcut.shortLink"
                  [ngModelOptions]="{standalone: true}">
@@ -39,6 +39,8 @@
             placeholder="Something to describe the destination page"
             [ngModelOptions]="{standalone: true}"></textarea>
         </mat-form-field>
+
+        <app-tags (tagsChanged)="shortcut.tags = $any($event)"></app-tags>
 
         <button class="submit" (click)="createShortcut()" mat-flat-button color="primary">Create</button>
       </form>

@@ -15,6 +15,22 @@ export const LIST_SHORTCUTS = gql`
     }
   }
 `
+export const LIST_TAGS = gql`
+  {
+    tags {
+      uid
+      tag
+    }
+  }
+`
+
+export const CREATE_TAG = gql`
+  mutation createTag($tag: String!) {
+    createTag(tag: $tag) {
+      tag
+    }
+  }
+`
 
 export const CREATE_SHORTCUT = gql`
   mutation createShortcut(

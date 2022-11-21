@@ -12,7 +12,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatCardModule } from '@angular/material/card'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { HttpClientModule } from '@angular/common/http'
 import { LoggedInGuard } from './core/guards/loggedIn.guard'
@@ -29,6 +29,8 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { CreateShortcutComponent } from './components/create-shortcut/create-shortcut.component'
 import { MatRadioModule } from '@angular/material/radio'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { TagsComponent } from './components/tags/tags.component'
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
     ListComponent,
     NavComponent,
     CreateShortcutComponent,
+    TagsComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
     MatSidenavModule,
     MatRadioModule,
     MatSnackBarModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
   ],
   providers: [
     AuthGuard,

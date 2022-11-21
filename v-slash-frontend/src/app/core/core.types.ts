@@ -3,10 +3,10 @@ export interface LoginResponse {
 }
 
 export interface Tag {
-  uid: string
-  pk: string
+  uid?: string
+  pk?: string
   tag: string
-  createdAt: Date
+  createdAt?: Date
 }
 
 export enum ShortcutType {
