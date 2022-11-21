@@ -152,6 +152,8 @@ export class ShortcutService {
             type: ShortcutType.PRIVATE,
           },
         ],
+        // take first 50, as opposed to pagination. Doing this for sake of time
+        take: 50,
         relations: ['tags'],
       }),
       this.tagService.findTagsLike(searchTerm, user.organisation.uid),
