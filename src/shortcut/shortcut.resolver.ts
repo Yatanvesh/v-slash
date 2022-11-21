@@ -6,6 +6,7 @@ import { GqlAuthGuard } from '../auth/guards/gql-auth.guard'
 import { CurrentUser } from '../auth/current-user.decorator'
 import { User } from '../user/models/user.model'
 import { ShortcutType } from './shortcut.types'
+import { SortDirection } from '../../v-slash-frontend/src/app/core/core.types'
 
 @Resolver((of) => Shortcut)
 @UseGuards(GqlAuthGuard)
@@ -20,8 +21,32 @@ export class ShortcutResolver {
   // }
 
   @Query((returns) => [Shortcut])
-  async userShortcuts(@CurrentUser() user: User): Promise<Shortcut[]> {
-    return this.shortcutService.getUserShortcuts(user.uid, user.pk)
+  async userShortcuts(
+    @Args({ name: 'offset', defaultValue: 0, type: () => Number })
+    offset: number,
+    @Args({ name: 'limit', defaultValue: 10, type: () => Number })
+    limit: number,
+    @Args({ name: 'sortKey', defaultValue: 'createdAt', type: () => String })
+    sortKey: string,
+    @Args({
+      name: 'sortDir',
+      defaultValue: SortDirection.DESC,
+      type: () => String,
+    })
+    sortDir: string,
+    @CurrentUser() user: User,
+  ): Promise<Shortcut[]> {
+    return this.shortcutService.getUserShortcuts(user.uid, user.pk, {
+      offset,
+      limit,
+      sortKey,
+      sortDir,
+    })
+  }
+
+  @Query((returns) => Number)
+  async userShortcutsCount(@CurrentUser() user: User): Promise<Number> {
+    return this.shortcutService.getUserShortcutsCount(user.uid, user.pk)
   }
 
   // @ResolveField()
@@ -30,7 +55,6 @@ export class ShortcutResolver {
   // }
 
   @Mutation((returns) => Shortcut)
-  // @UseGuards(GqlAuthGuard)
   async createShortcut(
     @Args({ name: 'shortLink', type: () => String }) shortLink: string,
     @Args({ name: 'fullUrl', type: () => String }) fullUrl: string,
@@ -52,5 +76,13 @@ export class ShortcutResolver {
       user,
       tags,
     )
+  }
+
+  @Mutation((returns) => Boolean)
+  async deleteShortcut(
+    @Args({ name: 'uid', type: () => String }) uid: string,
+    @CurrentUser() user: User,
+  ) {
+    return this.shortcutService.delete(uid, user)
   }
 }

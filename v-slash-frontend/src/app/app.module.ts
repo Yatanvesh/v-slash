@@ -31,6 +31,8 @@ import { MatRadioModule } from '@angular/material/radio'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { TagsComponent } from './components/tags/tags.component'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatMenuModule } from '@angular/material/menu'
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete'
     MatSnackBarModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
+    MatMenuModule,
   ],
   providers: [
     AuthGuard,

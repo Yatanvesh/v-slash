@@ -46,11 +46,13 @@ type Shortcut {
 type Query {
   user: User!
   organisation: Organisation!
-  userShortcuts: [Shortcut!]!
+  userShortcuts(offset: Float = 0, limit: Float = 10, sortKey: String = "createdAt", sortDir: String = "DESC"): [Shortcut!]!
+  userShortcutsCount: Float!
   tags: [Tag!]!
 }
 
 type Mutation {
   createShortcut(shortLink: String!, fullUrl: String!, description: String, type: String, tags: [String!]): Shortcut!
+  deleteShortcut(uid: String!): Boolean!
   createTag(tag: String!): Tag!
 }

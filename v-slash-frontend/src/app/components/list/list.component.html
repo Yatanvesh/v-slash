@@ -1,11 +1,28 @@
 <div class="main">
-  <h2>Shortcuts ({{shortcuts.length}})</h2>
+  <div class="flex-row" style="align-items: center;margin-bottom: 20px;">
+    <h2 style="margin:0">Shortcuts <span *ngIf="shortcutCount">({{shortcutCount}})</span></h2>
+    <button
+      mat-button [matMenuTriggerFor]="menu" mat-flat-button
+      color="primary" style="margin-left: auto;">
+      {{selectedSortOption.name}}
+    </button>
+    <mat-menu #menu="matMenu">
+      <button (click)="sortBy(sortOption)" *ngFor="let sortOption of sortOptions"
+              mat-menu-item>{{sortOption.name}}</button>
+    </mat-menu>
+  </div>
   <ngx-skeleton-loader *ngIf="loading" count="10"></ngx-skeleton-loader>
+
 
   <div class="list">
     <a [href]="shortcut.fullUrl" target="_blank"
        class="card" *ngFor="let shortcut of shortcuts">
-      <h4><strong>v/{{shortcut.shortLink}}</strong></h4>
+      <div class="flex-row">
+        <h4><strong>v/{{shortcut.shortLink}}</strong></h4>
+        <button (click)="deleteShortcut(shortcut.uid, $event)" mat-button>
+          <mat-icon style="color:red">delete</mat-icon>
+        </button>
+      </div>
       <h4>{{shortcut.description || 'No Description'}}</h4>
       <mat-chip-list aria-label="Fish selection">
         <mat-chip>{{shortcut.createdAt | date : 'MMMM d'}}</mat-chip>
@@ -16,4 +33,10 @@
       </mat-chip-list>
     </a>
   </div>
+  <mat-paginator [length]="shortcutCount"
+                 [pageSize]="pageSize"
+                 [hidePageSize]="true"
+                 aria-label="Select page"
+                 (page)="handlePageEvent($event)">
+  </mat-paginator>
 </div>

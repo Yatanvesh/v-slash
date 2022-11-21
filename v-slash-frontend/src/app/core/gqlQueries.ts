@@ -1,8 +1,18 @@
 import { gql } from 'apollo-angular'
 
 export const LIST_SHORTCUTS = gql`
-  {
-    userShortcuts {
+  query userShortcuts(
+    $offset: Float
+    $limit: Float
+    $sortKey: String
+    $sortDir: String
+  ) {
+    userShortcuts(
+      offset: $offset
+      limit: $limit
+      sortKey: $sortKey
+      sortDir: $sortDir
+    ) {
       uid
       shortLink
       fullUrl
@@ -15,6 +25,19 @@ export const LIST_SHORTCUTS = gql`
     }
   }
 `
+
+export const COUNT_SHORTCUTS = gql`
+  {
+    userShortcutsCount
+  }
+`
+
+export const DELETE_SHORTCUT = gql`
+  mutation deleteShortcut($uid: String!) {
+    deleteShortcut(uid: $uid)
+  }
+`
+
 export const LIST_TAGS = gql`
   {
     tags {

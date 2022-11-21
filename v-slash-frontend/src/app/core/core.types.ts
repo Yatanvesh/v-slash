@@ -25,3 +25,14 @@ export interface Shortcut {
   createdAt?: Date
   updatedAt?: Date
 }
+
+export enum SortDirection {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
+export interface SortOptions {
+  name: string
+  key: string
+  direction: SortDirection
+}

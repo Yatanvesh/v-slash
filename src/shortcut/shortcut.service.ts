@@ -44,6 +44,7 @@ export class ShortcutService {
     await this.shortcutRepository.save(shortcut)
     return shortcut
   }
+
   // async findOne(uid: string): Promise<ShortcutEntity> {
   //   return this.shortcutRepository.findOneBy({ uid })
   // }
@@ -51,11 +52,12 @@ export class ShortcutService {
   async getUserShortcuts(
     userUid: string,
     pk: string,
+    { offset, limit, sortKey, sortDir },
   ): Promise<ShortcutEntity[]> {
     const user = await this.userService.findByPk(userUid, pk)
-    const [orgShortcuts, privateShortcuts] = await Promise.all([
-      this.shortcutRepository.find({
-        where: {
+    return this.shortcutRepository.find({
+      where: [
+        {
           organisation: {
             uid: user.organisation.uid,
             pk: pk,
@@ -63,19 +65,51 @@ export class ShortcutService {
           type: ShortcutType.ORGANISATION,
           pk,
         },
-        relations: ['tags'],
-      }),
-      this.shortcutRepository.find({
-        where: {
+        {
           creator: {
             uid: userUid,
           },
           type: ShortcutType.PRIVATE,
           pk,
         },
-        relations: ['tags'],
-      }),
-    ])
-    return [...orgShortcuts, ...privateShortcuts]
+      ],
+      order: {
+        [sortKey]: sortDir,
+      },
+      take: limit,
+      skip: offset,
+      relations: ['tags'],
+    })
+  }
+
+  async delete(uid: string, user: Partial<UserEntity>) {
+    await this.shortcutRepository.delete({
+      uid,
+      pk: user.pk,
+    })
+    return true
+  }
+
+  async getUserShortcutsCount(userUid: string, pk: string): Promise<number> {
+    const user = await this.userService.findByPk(userUid, pk)
+    return this.shortcutRepository.count({
+      where: [
+        {
+          organisation: {
+            uid: user.organisation.uid,
+            pk: pk,
+          },
+          type: ShortcutType.ORGANISATION,
+          pk,
+        },
+        {
+          creator: {
+            uid: userUid,
+          },
+          type: ShortcutType.PRIVATE,
+          pk,
+        },
+      ],
+    })
   }
 }
