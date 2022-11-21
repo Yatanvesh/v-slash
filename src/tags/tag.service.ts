@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { In, Repository } from 'typeorm'
+import { In, Like, Repository } from 'typeorm'
 import { TagEntity } from './entities/tag.entity'
 import { UserService } from '../user/user.service'
 import { Tag } from './models/tag.model'
@@ -67,5 +67,21 @@ export class TagService {
       throw new BadRequestException('Please create tags before using them')
     }
     return tagEntities
+  }
+
+  findTagsLike(
+    searchTerm: string,
+    orgUid: string,
+    pk: string,
+  ): Promise<TagEntity[]> {
+    return this.tagRepository.find({
+      where: {
+        organisation: {
+          uid: orgUid,
+          pk,
+        },
+        tag: Like(`${searchTerm}%`),
+      },
+    })
   }
 }

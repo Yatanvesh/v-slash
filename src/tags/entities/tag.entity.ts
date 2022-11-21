@@ -23,6 +23,7 @@ export class TagEntity {
   pk: string
 
   @Column()
+  @Index()
   tag: string
 
   @ManyToOne((type) => OrganisationEntity)

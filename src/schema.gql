@@ -47,6 +47,7 @@ type Query {
   user: User!
   organisation: Organisation!
   userShortcuts(offset: Float = 0, limit: Float = 10, sortKey: String = "createdAt", sortDir: String = "DESC"): [Shortcut!]!
+  searchShortcut(searchTerm: String!): [Shortcut!]!
   userShortcutsCount: Float!
   tags: [Tag!]!
 }

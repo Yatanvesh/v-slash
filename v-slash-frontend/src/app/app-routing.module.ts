@@ -5,6 +5,7 @@ import { ListComponent } from './components/list/list.component'
 import { AuthGuard } from './core/guards/login.guard'
 import { LoggedInGuard } from './core/guards/loggedIn.guard'
 import { CreateShortcutComponent } from './components/create-shortcut/create-shortcut.component'
+import { SearchComponent } from './components/search/search.component'
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: 'create',
     component: CreateShortcutComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'search',
+    component: SearchComponent,
     canActivate: [AuthGuard],
   },
 ]

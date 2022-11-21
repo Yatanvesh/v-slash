@@ -26,6 +26,22 @@ export const LIST_SHORTCUTS = gql`
   }
 `
 
+export const SEARCH_SHORTCUTS = gql`
+  query searchShortcut($searchTerm: String!) {
+    searchShortcut(searchTerm: $searchTerm) {
+      uid
+      shortLink
+      fullUrl
+      description
+      type
+      createdAt
+      tags {
+        tag
+      }
+    }
+  }
+`
+
 export const COUNT_SHORTCUTS = gql`
   {
     userShortcutsCount

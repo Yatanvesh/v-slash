@@ -32,7 +32,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { TagsComponent } from './components/tags/tags.component'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatPaginatorModule } from '@angular/material/paginator'
-import { MatMenuModule } from '@angular/material/menu'
+import { MatMenuModule } from '@angular/material/menu';
+import { SearchComponent } from './components/search/search.component'
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MatMenuModule } from '@angular/material/menu'
     NavComponent,
     CreateShortcutComponent,
     TagsComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

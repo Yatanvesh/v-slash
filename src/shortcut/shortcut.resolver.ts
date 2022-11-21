@@ -44,6 +44,19 @@ export class ShortcutResolver {
     })
   }
 
+  @Query((returns) => [Shortcut])
+  async searchShortcut(
+    @Args({ name: 'searchTerm', type: () => String })
+    searchTerm: string,
+    @CurrentUser() user: User,
+  ): Promise<Shortcut[]> {
+    return this.shortcutService.getMatchedShortcuts(
+      searchTerm,
+      user.uid,
+      user.pk,
+    )
+  }
+
   @Query((returns) => Number)
   async userShortcutsCount(@CurrentUser() user: User): Promise<Number> {
     return this.shortcutService.getUserShortcutsCount(user.uid, user.pk)

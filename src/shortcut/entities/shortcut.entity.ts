@@ -35,6 +35,7 @@ export class ShortcutEntity {
   @Column({
     nullable: true,
   })
+  @Index()
   description?: string
 
   @Column({

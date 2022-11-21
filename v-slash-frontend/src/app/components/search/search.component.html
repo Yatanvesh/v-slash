@@ -1,0 +1,29 @@
+<div class="main">
+  <h2 style="margin:0">Search</h2>
+
+  <mat-form-field class="input link" appearance="outline">
+    <input required matInput type="text" [(ngModel)]="searchTerm"
+           [ngModelOptions]="{standalone: true}" (ngModelChange)="searchTermChanged()">
+    <span class="prefix" matPrefix>v/</span>
+  </mat-form-field>
+
+  <ngx-skeleton-loader *ngIf="loading" count="5"></ngx-skeleton-loader>
+  <h4 *ngIf="dirty && !loading && !shortcuts.length">No results</h4>
+
+  <div class="list">
+    <a [href]="shortcut.fullUrl" target="_blank"
+       class="card" *ngFor="let shortcut of shortcuts">
+      <div class="flex-row">
+        <h4><strong>v/{{shortcut.shortLink}}</strong></h4>
+      </div>
+      <h4>{{shortcut.description || 'No Description'}}</h4>
+      <mat-chip-list aria-label="Fish selection">
+        <mat-chip>{{shortcut.createdAt | date : 'MMMM d'}}</mat-chip>
+        <mat-chip *ngIf="shortcut.type" color="primary">{{shortcut.type.toLowerCase()}}
+          <mat-icon style="margin-left: 4px">{{getIcon(shortcut.type)}}</mat-icon>
+        </mat-chip>
+        <mat-chip color="accent" *ngFor="let tag of shortcut.tags" selected>{{tag?.tag}}</mat-chip>
+      </mat-chip-list>
+    </a>
+  </div>
+</div>

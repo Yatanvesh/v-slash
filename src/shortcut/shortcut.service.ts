@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { In, Like, Repository } from 'typeorm'
 import { ShortcutEntity } from './entities/shortcut.entity'
 import { UserEntity } from '../user/entities/user.entity'
 import { UserService } from '../user/user.service'
 import { validate } from 'class-validator'
 import { TagService } from '../tags/tag.service'
 import { ShortcutType } from './shortcut.types'
+import { User } from '../user/models/user.model'
 
 @Injectable()
 export class ShortcutService {
@@ -111,5 +112,78 @@ export class ShortcutService {
         },
       ],
     })
+  }
+
+  async getMatchedShortcuts(searchTerm: string, userUid: string, pk: string) {
+    const user = await this.userService.findByPk(userUid, pk)
+    const [shortcuts, tags] = await Promise.all([
+      this.shortcutRepository.find({
+        where: [
+          {
+            shortLink: Like(`${searchTerm}%`),
+            organisation: {
+              uid: user.organisation.uid,
+              pk: pk,
+            },
+            type: ShortcutType.ORGANISATION,
+            pk,
+          },
+          {
+            description: Like(`%${searchTerm}%`),
+            organisation: {
+              uid: user.organisation.uid,
+              pk: pk,
+            },
+            type: ShortcutType.ORGANISATION,
+            pk,
+          },
+          {
+            shortLink: Like(`${searchTerm}%`),
+            creator: {
+              uid: user.uid,
+            },
+            type: ShortcutType.PRIVATE,
+            pk: user.pk,
+          },
+          {
+            description: Like(`%${searchTerm}%`),
+            pk,
+            creator: {
+              uid: user.uid,
+            },
+            type: ShortcutType.PRIVATE,
+          },
+        ],
+        relations: ['tags'],
+      }),
+      this.tagService.findTagsLike(searchTerm, user.organisation.uid, pk),
+    ])
+    const taggedShortcuts = await this.shortcutRepository.find({
+      where: [
+        {
+          tags: {
+            uid: In(tags.map((tag) => tag.uid)),
+          },
+          organisation: {
+            uid: user.organisation.uid,
+            pk: pk,
+          },
+          type: ShortcutType.ORGANISATION,
+          pk,
+        },
+        {
+          tags: {
+            uid: In(tags.map((tag) => tag.uid)),
+          },
+          creator: {
+            uid: user.uid,
+          },
+          type: ShortcutType.PRIVATE,
+          pk: user.pk,
+        },
+      ],
+      relations: ['tags'],
+    })
+    return [...shortcuts, ...taggedShortcuts]
   }
 }
