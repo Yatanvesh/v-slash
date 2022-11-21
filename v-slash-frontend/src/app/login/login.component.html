@@ -1,0 +1,62 @@
+<div class="main">
+  <div class="login">
+    <mat-card>
+      <mat-card-content>
+        <h4>Login</h4>
+        <form class="register-form">
+          <mat-form-field class="input" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="example@mail.com" [(ngModel)]="login.email"
+                   [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="input" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input type="password" placeholder="password" matInput minlength="3" [(ngModel)]="login.password"
+                   [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <button (click)="handleLogin()"  mat-flat-button color="primary">Login</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <h4>Register</h4>
+        <form class="register-form">
+          <mat-form-field class="input" appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput type="text"  [(ngModel)]="register.name"
+                   [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field class="input" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="example@mail.com" [(ngModel)]="register.email"
+                   [ngModelOptions]="{standalone: true}">
+
+          </mat-form-field>
+          <mat-form-field class="input" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input type="password" placeholder="password" matInput minlength="3" [(ngModel)]="register.password"
+                   [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <button (click)="handleRegister()" mat-flat-button color="accent">Register</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="demo">
+    <mat-card>
+      <mat-card-content>
+        <h2>Welcome to V/Slash demo</h2>
+        <h4>Login credentials are autofilled with a user belonging to a workspace having a million shortcuts</h4>
+        <h4>Feel free to create a new user and explore from scratch too!</h4>
+        <br/>
+        <h4>Made with NestJS, GraphQL, MySQL, TypeORM and Angular</h4>
+        <h4><a target="_blank" href="https://github.com/Yatanvesh/v-slash">Github Link</a></h4>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+</div>
