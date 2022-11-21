@@ -16,6 +16,13 @@ import { FormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { HttpClientModule } from '@angular/common/http'
 import { LoggedInGuard } from './core/guards/loggedIn.guard'
+import { InMemoryCache } from '@apollo/client/core'
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular'
+import { HttpLink } from 'apollo-angular/http'
+import { environment } from '../environments/environment'
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader'
+import { MatChipsModule } from '@angular/material/chips'
+import { MatIconModule } from '@angular/material/icon'
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, ListComponent],
@@ -31,8 +38,27 @@ import { LoggedInGuard } from './core/guards/loggedIn.guard'
     FormsModule,
     MatButtonModule,
     HttpClientModule,
+    ApolloModule,
+    NgxSkeletonLoaderModule,
+    MatChipsModule,
+    MatIconModule,
   ],
-  providers: [AuthGuard, LoggedInGuard],
+  providers: [
+    AuthGuard,
+    LoggedInGuard,
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory(httpLink: HttpLink) {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: `${environment.baseUrl}/graphql`,
+          }),
+        }
+      },
+      deps: [HttpLink],
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
