@@ -69,8 +69,14 @@ export class ShortcutEntity {
   tags?: TagEntity[]
 
   @CreateDateColumn()
-  @Index()
   createdAt: Date
+
+  // index column for createdAt field, I'm rounding time to nearest hour
+  @Column('varchar', {
+    length: 24,
+  })
+  @Index()
+  createdAtIndex: string
 
   @UpdateDateColumn()
   updatedAt: Date

@@ -43,8 +43,16 @@ export class ShortcutService {
       user.organisation,
     )
     shortcut.organisation = user.organisation
+    // index column for createdAt field, I'm rounding time to nearest hour
+    shortcut.createdAtIndex = this.roundToNearestHour(new Date())
     await this.shortcutRepository.save(shortcut)
     return shortcut
+  }
+
+  roundToNearestHour(date) {
+    date.setMinutes(date.getMinutes() + 30)
+    date.setMinutes(0, 0, 0)
+    return date
   }
 
   /*

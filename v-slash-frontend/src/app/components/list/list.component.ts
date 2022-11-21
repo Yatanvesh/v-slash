@@ -37,12 +37,12 @@ export class ListComponent implements OnInit, OnDestroy {
   sortOptions: SortOptions[] = [
     {
       name: 'Created Desc',
-      key: 'createdAt',
+      key: 'createdAtIndex',
       direction: SortDirection.DESC,
     },
     {
       name: 'Created Asc',
-      key: 'createdAt',
+      key: 'createdAtIndex',
       direction: SortDirection.ASC,
     },
     {
