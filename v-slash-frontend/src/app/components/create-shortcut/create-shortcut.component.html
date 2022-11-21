@@ -1,0 +1,47 @@
+<div class="main">
+  <h2>New Shortcut</h2>
+
+  <mat-card>
+    <mat-card-content>
+      <form class="create-form">
+        <mat-form-field  class="input link" appearance="outline">
+          <mat-label>Short link</mat-label>
+          <input required matInput type="text" [(ngModel)]="shortcut.shortLink"
+                 [ngModelOptions]="{standalone: true}">
+          <span class="prefix" matPrefix>v/</span>
+        </mat-form-field>
+
+        <mat-form-field class="input" appearance="outline">
+          <mat-label>Full URL</mat-label>
+          <input required matInput type="text" [(ngModel)]="shortcut.fullUrl"
+                 placeholder="Paste the full url of the page you want to go to"
+                 [ngModelOptions]="{standalone: true}">
+          <span class="prefix" matPrefix><mat-icon>link</mat-icon></span>
+        </mat-form-field>
+
+        <mat-label>Type</mat-label>
+        <mat-radio-group
+          [(ngModel)]="shortcut.type"
+          [ngModelOptions]="{standalone: true}"
+          aria-label="Select an option">
+          <mat-radio-button style="margin-right: 8px;" [value]="ShortcutType.PRIVATE">Private</mat-radio-button>
+          <mat-radio-button [value]="ShortcutType.ORGANISATION">Organisation</mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field class="input" appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="4"
+            matInput type="textarea" [(ngModel)]="shortcut.description"
+            placeholder="Something to describe the destination page"
+            [ngModelOptions]="{standalone: true}"></textarea>
+        </mat-form-field>
+
+        <button class="submit" (click)="createShortcut()" mat-flat-button color="primary">Create</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

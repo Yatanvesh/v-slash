@@ -7,6 +7,7 @@ async function bootstrap() {
   const globalPrefix = 'api'
   app.setGlobalPrefix(globalPrefix)
   app.useGlobalPipes(new ValidationPipe())
+  app.enableCors()
   const port = process.env.PORT || 3333
 
   await app.listen(port)

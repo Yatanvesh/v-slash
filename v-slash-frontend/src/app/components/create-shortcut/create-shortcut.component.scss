@@ -1,0 +1,28 @@
+.main {
+  padding: 16px 20px;
+
+  .create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .submit {
+    align-self: flex-start;
+  }
+
+  .prefix {
+    margin-bottom: 8px;
+  }
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-prefix {
+  top: 0 !important;
+  margin-right: 4px;
+}
+
+

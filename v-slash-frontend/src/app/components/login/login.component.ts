@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { AuthService } from '../core/services/auth.service'
-import { LoginResponse } from '../core/core.types'
+import { AuthService } from '../../core/services/auth.service'
+import { LoginResponse } from '../../core/core.types'
 import { Router } from '@angular/router'
 
 @Component({

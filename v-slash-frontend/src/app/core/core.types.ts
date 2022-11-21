@@ -15,13 +15,13 @@ export enum ShortcutType {
 }
 
 export interface Shortcut {
-  uid: string
-  pk: string
+  uid?: string
+  pk?: string
   shortLink: string
   description?: string
   type?: ShortcutType
   fullUrl: string
   tags?: Tag[]
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }

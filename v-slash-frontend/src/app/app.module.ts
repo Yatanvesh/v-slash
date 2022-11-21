@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { LoginComponent } from './login/login.component'
-import { ListComponent } from './list/list.component'
+import { LoginComponent } from './components/login/login.component'
+import { ListComponent } from './components/list/list.component'
 import { AuthGuard } from './core/guards/login.guard'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
@@ -23,9 +23,21 @@ import { environment } from '../environments/environment'
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatIconModule } from '@angular/material/icon'
+import { MatButtonToggleModule } from '@angular/material/button-toggle'
+import { NavComponent } from './components/nav/nav.component'
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { CreateShortcutComponent } from './components/create-shortcut/create-shortcut.component'
+import { MatRadioModule } from '@angular/material/radio'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, ListComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    ListComponent,
+    NavComponent,
+    CreateShortcutComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -42,6 +54,10 @@ import { MatIconModule } from '@angular/material/icon'
     NgxSkeletonLoaderModule,
     MatChipsModule,
     MatIconModule,
+    MatButtonToggleModule,
+    MatSidenavModule,
+    MatRadioModule,
+    MatSnackBarModule,
   ],
   providers: [
     AuthGuard,

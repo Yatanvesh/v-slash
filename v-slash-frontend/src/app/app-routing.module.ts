@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { LoginComponent } from './login/login.component'
-import { ListComponent } from './list/list.component'
+import { LoginComponent } from './components/login/login.component'
+import { ListComponent } from './components/list/list.component'
 import { AuthGuard } from './core/guards/login.guard'
 import { LoggedInGuard } from './core/guards/loggedIn.guard'
+import { CreateShortcutComponent } from './components/create-shortcut/create-shortcut.component'
 
 const routes: Routes = [
   {
@@ -13,7 +14,17 @@ const routes: Routes = [
   },
   {
     path: '',
+    redirectTo: 'list',
+    pathMatch: 'full',
+  },
+  {
+    path: 'list',
     component: ListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'create',
+    component: CreateShortcutComponent,
     canActivate: [AuthGuard],
   },
 ]

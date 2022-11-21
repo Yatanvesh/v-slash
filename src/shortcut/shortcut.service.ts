@@ -33,7 +33,7 @@ export class ShortcutService {
     })
     const validationErrors = await validate(shortcut)
     if (validationErrors.length) {
-      throw new BadRequestException(validationErrors)
+      throw new BadRequestException(validationErrors[0].toString())
     }
 
     shortcut.tags = await this.tagService.getTagEntities(

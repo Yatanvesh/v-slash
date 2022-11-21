@@ -1,5 +1,19 @@
 <mat-toolbar>
   <span>V-Slash</span>
-  <a (click)="logout()" *ngIf="authService.isLoggedIn()" class="logout">Logout</a>
+  <ng-container *ngIf="authService.isLoggedIn()">
+    <a (click)="logout()" class="logout">Logout</a>
+  </ng-container>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<mat-drawer-container *ngIf="authService.isLoggedIn();else outlet" class="drawer">
+  <mat-drawer mode="side" opened>
+    <app-nav></app-nav>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+
+<ng-template #outlet>
+  <router-outlet></router-outlet>
+</ng-template>
