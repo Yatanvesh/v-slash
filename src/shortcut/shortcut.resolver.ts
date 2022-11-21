@@ -63,7 +63,9 @@ export class ShortcutResolver {
     Does not include private shortcuts of other users in same org
    */
   @Query((returns) => Number)
-  async userShortcutsCount(@CurrentUser() user: User): Promise<Number> {
+  async userShortcutsCount(
+    @CurrentUser() user: Partial<User>,
+  ): Promise<Number> {
     return this.shortcutService.getUserShortcutsCount(user.uid, user.pk)
   }
 
@@ -82,7 +84,7 @@ export class ShortcutResolver {
     type: ShortcutType,
     @Args({ name: 'tags', type: () => [String], nullable: true })
     tags: string[],
-    @CurrentUser() user: User,
+    @CurrentUser() user: Partial<User>,
   ) {
     return this.shortcutService.create(
       {
