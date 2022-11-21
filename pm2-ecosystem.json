@@ -1,0 +1,19 @@
+{
+  "apps": [
+    {
+      "name": "vslash",
+      "script": "dist/src/main.js",
+      "args": "",
+      "instances": 1,
+      "watch": false,
+      "max_memory_restart": "4G",
+      "env": {
+        "PORT": 3005,
+        "DATABASE_HOST": "vslash2.c1g49bn8wd2v.us-east-1.rds.amazonaws.com",
+        "DATABASE_USERNAME": "admin",
+        "DATABASE_PASSWORD": "c0dezindabad",
+        "DATABASE_NAME": "vslash"
+      }
+    }
+  ]
+}
