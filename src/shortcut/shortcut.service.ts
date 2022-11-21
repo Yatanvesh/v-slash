@@ -6,6 +6,7 @@ import { UserEntity } from '../user/entities/user.entity'
 import { UserService } from '../user/user.service'
 import { validate } from 'class-validator'
 import { TagService } from '../tags/tag.service'
+import { ShortcutType } from './shortcut.types'
 
 @Injectable()
 export class ShortcutService {
@@ -39,6 +40,7 @@ export class ShortcutService {
       tags,
       user.organisation,
     )
+    shortcut.organisation = user.organisation
     await this.shortcutRepository.save(shortcut)
     return shortcut
   }
@@ -46,15 +48,34 @@ export class ShortcutService {
   //   return this.shortcutRepository.findOneBy({ uid })
   // }
 
-  async getUserShortcuts(uid: string, pk: string): Promise<ShortcutEntity[]> {
-    return this.shortcutRepository.find({
-      where: {
-        creator: {
-          uid,
+  async getUserShortcuts(
+    userUid: string,
+    pk: string,
+  ): Promise<ShortcutEntity[]> {
+    const user = await this.userService.findByPk(userUid, pk)
+    const [orgShortcuts, privateShortcuts] = await Promise.all([
+      this.shortcutRepository.find({
+        where: {
+          organisation: {
+            uid: user.organisation.uid,
+            pk: pk,
+          },
+          type: ShortcutType.ORGANISATION,
+          pk,
         },
-        pk,
-      },
-      relations: ['tags'],
-    })
+        relations: ['tags'],
+      }),
+      this.shortcutRepository.find({
+        where: {
+          creator: {
+            uid: userUid,
+          },
+          type: ShortcutType.PRIVATE,
+          pk,
+        },
+        relations: ['tags'],
+      }),
+    ])
+    return [...orgShortcuts, ...privateShortcuts]
   }
 }

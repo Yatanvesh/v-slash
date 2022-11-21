@@ -14,11 +14,13 @@ import { IsUrl } from 'class-validator'
 import { ShortcutType } from '../shortcut.types'
 import { UserEntity } from '../../user/entities/user.entity'
 import { TagEntity } from '../../tags/entities/tag.entity'
+import { OrganisationEntity } from '../../organisation/entities/organisation.entity'
 
 @Entity({
   name: 'shortcut',
 })
 @Index(['shortLink', 'creator', 'type'], { unique: true })
+@Index(['shortLink', 'creator'])
 export class ShortcutEntity {
   @PrimaryGeneratedColumn('uuid')
   uid: string
@@ -59,6 +61,10 @@ export class ShortcutEntity {
   @ManyToOne((type) => UserEntity)
   @JoinColumn()
   creator?: UserEntity
+
+  @ManyToOne((type) => OrganisationEntity)
+  @JoinColumn()
+  organisation?: OrganisationEntity
 
   @ManyToMany((type) => TagEntity)
   @JoinTable()
